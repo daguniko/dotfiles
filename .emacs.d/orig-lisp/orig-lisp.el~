@@ -1,0 +1,19 @@
+;;define half-page-up,down
+(defun half-page-up();; "カーソルは画面内固定で半画面 scroll-up。"
+  (interactive)
+  (if(= (window-end) (point-max))
+      (next-line (/ (window-height) 2))
+    (let ((a (current-line)))
+      (if(< a 1) (setq a 1))
+      (scroll-up (/ (window-height) 2))
+      (move-to-window-line a)
+      )))
+
+(defun half-page-down();;   "カーソルは画面内固定で半画面 scroll-down。"
+  (interactive)
+  (if(= (window-start) 1)
+      (next-line (/ (window-height) -2))
+    (let ((a (current-line)))
+      (scroll-down (/ (window-height) 2))
+      (move-to-window-line a)
+      )))

@@ -1,0 +1,5 @@
+setenv GNUTERM 'x11'
+PS1('>>')
+
+
+% path(path,"Desktop/Program/ML/mlclass-ex1-007/mlclass-ex1")
