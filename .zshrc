@@ -1,49 +1,207 @@
-# users generic .zshrc file for zsh(1)
-alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs -nw"
-alias mou='open -a "mou"'
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="wezm"
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+# User configuration
+
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export MANPATH="/usr/local/man:$MANPATH"
+
+source $ZSH/oh-my-zsh.sh
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 
-#setting buffer stack
-function show_buffer_stack() {
-  POSTDISPLAY="
-stack: $LBUFFER"
-  zle push-line-or-edit
+# autoload colors
+# colors
+# case ${UID} in
+# 0)
+#     PROMPT="%{${fg[magenta]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
+#     PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
+#     SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
+#     ;;
+# *)
+#     PROMPT="%{${fg[magenta]}%}%/%%%{${reset_color}%} "
+#     PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+#     SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+#         PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+#     ;;
+# esac
+
+#pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+#plenv
+export PATH=/Users/admin/.plenv/shims/perl:
+
+# init path
+# mac
+if [ -x /usr/libexec/path_helper ]; then
+    eval `/usr/libexec/path_helper -s`
+fi
+
+export PATH=${HOME}/local/bin:${HOME}/bin:/usr/local/bin:$PATH
+
+# alias for carton
+alias ce='carton exec'
+alias ci='carton install'
+
+alias cit='cpanm --installdeps . --notest'
+
+# cdr
+autoload -Uz add-zsh-hock
+autoload -Uz chpwd_recent_dirs pcdr add-zsh-hook
+
+# setting for peco
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+    tac="tac"
+    else
+    tac="tail -r"
+    fi
+    BUFFER=$(\history -n 1 | \
+            eval $tac | \
+            peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
 }
-zle -N show_buffer_stack
-setopt noflowcontrol
+zle -N peco-select-history
 
-bindkey '^Q' show_buffer_stack
+function peco-cdr () {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+    if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-cdr
+
+bindkey '^@' peco-cdr
+bindkey '^r' peco-select-history
+
+# setting for plenv
+eval "$(plenv init -)"
 
 
+#path for sklearn
+    export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/share/python:$PATH
 
-#setting RCfile
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source /Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenvwrapper.sh
+# users generic .zshrc file for zsh(1)
+eval "$(hub alias -s)"
+
+# today
+alias today='date +%Y%m%d'
+alias tdbl='VAR=`date +%Y%m%d`|touch $VAR.md|mou $VAR.md'
+
+# rbenv binstubs setting
+export PATH=./vendor/bin:$PATH
+alias rbe='rbenv exec bundle exec'
+alias rbi='rbenv exec bundle install --path vendor/bundle'
+
+#bundle settin
+alias bcp='bundle config BUNDLE_PATH vendor/bundle'
+
+#rbenv
+export RBENV_ROOT=/usr/local/var/rbenv
+export PATH="~/.rbenv/shims:/usr/local/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+# alias mou
+alias mou='open -a "Mou"'
+
+#alias emacs
+alias emacs="TERM=xterm-256color /usr/local/bin/emacs"
+
+#setting for javac
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 
 #setting GNUTERM for Octave in bash_profile
 #export GNUTERM=x11
-
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit -u
-
-# autoload -U compinit; compinit
-# zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-#                              /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin \
-#                              /usr/local/git/bin
 
 #setting for ifconfig
 export PATH=$PATH:/sbin
 export PATH=/Users/sudo/Desktop/TreeTagger/cmd:$PATH
 export PATH=/Users/sudo/Desktop/TreeTagger/bin:$PATH
 export PATH=/usr/sbin:$PATH
-
-#for zsh-completions
-# zsh-completionsを利用する Github => zsh-completions  
-#fpath=(/zsh-completions $fpath)
-fpath=(/opt/local/share/zsh/site-functions/ $fpath)
-
 
 ## Environment variable configuration
 #
@@ -57,54 +215,54 @@ case ${UID} in
 esac
 
 
-## MacPort Path 
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-export MANPATH=/opt/local/man:$MANPATH
+## MacPort Path
+#export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+#export MANPATH=/opt/local/man:$MANPATH
 
 ## Default shell configuration
 #
 # set prompt
 #
 autoload colors
-colors
-case ${UID} in
-0)
-    PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-    PROMPT2="%B%{${fg[red]}%}%_#%{${reset_color}%}%b "
-    SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-    ;;
-*)
-    PROMPT="%{${fg[red]}%}%/%%%{${reset_color}%} "
-    PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && 
-        PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-    ;;
-esac
+# colors
+# case ${UID} in
+# 0)
+#     PROMPT="%{${fg[magenta]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
+#     PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
+#     SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
+#     ;;
+# *)
+#     PROMPT="%{${fg[magenta]}%}%/%%%{${reset_color}%} "
+#     PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+#     SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+#         PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+#     ;;
+# esac
 
-# auto change directory
-#
-setopt auto_cd
+# # auto change directory
+# #
+# setopt auto_cd
 
-# auto directory pushd that you can get dirs list by cd -[tab]
-#
-setopt auto_pushd
+# # auto directory pushd that you can get dirs list by cd -[tab]
+# #
+# setopt auto_pushd
 
-# command correct edition before each completion attempt
-#
-setopt correct
+# # command correct edition before each completion attempt
+# #
+# setopt correct
 
-# compacked complete list display
-#
-setopt list_packed
+# # compacked complete list display
+# #
+# setopt list_packed
 
-# no remove postfix slash of command line
-#
-setopt noautoremoveslash
+# # no remove postfix slash of command line
+# #
+# setopt noautoremoveslash
 
-# no beep sound when complete list displayed
-#
-setopt nolistbeep
+# # no beep sound when complete list displayed
+# #
+# setopt nolistbeep
 
 
 ## Keybind configuration
@@ -178,14 +336,18 @@ esac
 
 alias la="ls -a"
 alias lf="ls -F"
-alias ll="ls -l"
+alias ll="ls -la"
 
 alias du="du -h"
 alias df="df -h"
 
 alias su="su -l"
+alias bi="bundle install"
+alias be="bundle exec"
 
-
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 #original alias
 alias pwdc="pwd | pbcopy"
@@ -239,4 +401,17 @@ esac
 
 ## load user .zshrc configuration file
 #
-[ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.mine
+[ -f ${HOME}/.zshrc.mine ] && source ${HOME}/.zshrc.minesource ~/.tmuxinator/tmuxinator.zsh
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+# enhancd
+if [ -f "/Users/admin/.enhancd/zsh/enhancd.zsh" ]; then
+    source "/Users/admin/.enhancd/zsh/enhancd.zsh"
+fi
+
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+ export PATH=${PYENV_ROOT}/bin:$PATH
+ eval "$(pyenv init -)"
+fi
