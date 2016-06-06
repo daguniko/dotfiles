@@ -1,116 +1,3 @@
-# reference [anaconda]
-# http://qiita.com/ken0nek/items/c51b8e2b83d902698fdf
-
-# [[ $TERM != "screen" ]] && exec tmux
-
-alias vi='/usr/local/bin/vim'
-alias vim='/usr/local/bin/vim'
-alias gvi='/usr/local/bin/vim -g'
-
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="wezm"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-#DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-#DISABLE_AUTO_TITLE="true"
-export DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-#ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-# User configuration
-
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-# export MANPATH="/usr/local/man:$MANPATH"
-
-source $ZSH/oh-my-zsh.sh
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-
-# autoload colors
-# colors
-# case ${UID} in
-# 0)
-#     PROMPT="%{${fg[magenta]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-#     PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
-#     SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-#     ;;
-# *)
-#     PROMPT="%{${fg[magenta]}%}%/%%%{${reset_color}%} "
-#     PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-#     SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-#     ;;
-# esac
-
 #pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -127,6 +14,7 @@ fi
 
 export PATH=${HOME}/local/bin:${HOME}/bin:/usr/local/bin:$PATH
 
+
 # alias for carton
 alias ce='carton exec'
 alias ci='carton install'
@@ -141,13 +29,13 @@ autoload -Uz chpwd_recent_dirs pcdr add-zsh-hook
 function peco-select-history() {
     local tac
     if which tac > /dev/null; then
-    tac="tac"
+	tac="tac"
     else
-    tac="tail -r"
+	tac="tail -r"
     fi
     BUFFER=$(\history -n 1 | \
-            eval $tac | \
-            peco --query "$LBUFFER")
+		    eval $tac | \
+		    peco --query "$LBUFFER")
     CURSOR=$#BUFFER
     zle clear-screen
 }
@@ -156,8 +44,8 @@ zle -N peco-select-history
 function peco-cdr () {
     local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
     if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
+	BUFFER="cd ${selected_dir}"
+	zle accept-line
     fi
     zle clear-screen
 }
@@ -169,18 +57,12 @@ bindkey '^r' peco-select-history
 # setting for plenv
 eval "$(plenv init -)"
 
-
 #path for sklearn
 export PATH=/usr/local/bin:$PATH
 export PATH=/usr/local/share/python:$PATH
 
 # users generic .zshrc file for zsh(1)
 eval "$(hub alias -s)"
-
-# anaconda python
-alias py2='source ~/.pyenv/versions/anaconda3-2.3.0/bin/activate py27'
-alias py3='source ~/.pyenv/versions/anaconda3-2.3.0/bin/deactivate'
-
 
 # today
 alias today='date +%Y%m%d'
@@ -204,7 +86,7 @@ eval "$(rbenv init -)"
 alias mou='open -a "Mou"'
 
 #alias emacs
-alias emacs="TERM=xterm-256color /usr/local/bin/emacs"
+alias emacs="TERM=xterm-256color /usr/local//bin/emacs"
 
 #setting for javac
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
@@ -231,53 +113,53 @@ esac
 
 
 ## MacPort Path
-#export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-#export MANPATH=/opt/local/man:$MANPATH
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+export MANPATH=/opt/local/man:$MANPATH
 
 ## Default shell configuration
 #
 # set prompt
 #
 autoload colors
-# colors
-# case ${UID} in
-# 0)
-#     PROMPT="%{${fg[magenta]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
-#     PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
-#     SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
-#     ;;
-# *)
-#     PROMPT="%{${fg[magenta]}%}%/%%%{${reset_color}%} "
-#     PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
-#     SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
-#     [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-#         PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
-#     ;;
-# esac
+colors
+case ${UID} in
+0)
+    PROMPT="%{${fg[magenta]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') %B%{${fg[red]}%}%/#%{${reset_color}%}%b "
+    PROMPT2="%B%{${fg[magenta]}%}%_#%{${reset_color}%}%b "
+    SPROMPT="%B%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%}%b "
+    ;;
+*)
+    PROMPT="%{${fg[magenta]}%}%/%%%{${reset_color}%} "
+    PROMPT2="%{${fg[red]}%}%_%%%{${reset_color}%} "
+    SPROMPT="%{${fg[red]}%}%r is correct? [n,y,a,e]:%{${reset_color}%} "
+    [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
+        PROMPT="%{${fg[cyan]}%}$(echo ${HOST%%.*} | tr '[a-z]' '[A-Z]') ${PROMPT}"
+    ;;
+esac
 
-# # auto change directory
-# #
-# setopt auto_cd
+# auto change directory
+#
+setopt auto_cd
 
-# # auto directory pushd that you can get dirs list by cd -[tab]
-# #
-# setopt auto_pushd
+# auto directory pushd that you can get dirs list by cd -[tab]
+#
+setopt auto_pushd
 
-# # command correct edition before each completion attempt
-# #
-# setopt correct
+# command correct edition before each completion attempt
+#
+setopt correct
 
-# # compacked complete list display
-# #
-# setopt list_packed
+# compacked complete list display
+#
+setopt list_packed
 
-# # no remove postfix slash of command line
-# #
-# setopt noautoremoveslash
+# no remove postfix slash of command line
+#
+setopt noautoremoveslash
 
-# # no beep sound when complete list displayed
-# #
-# setopt nolistbeep
+# no beep sound when complete list displayed
+#
+setopt nolistbeep
 
 
 ## Keybind configuration
@@ -318,7 +200,7 @@ setopt share_history        # share command history data
 #
 fpath=(${HOME}/.zsh/functions/Completion ${fpath})
 autoload -U compinit
-compinit -u
+compinit
 
 
 ## zsh editor
@@ -430,30 +312,3 @@ if [ -d "${PYENV_ROOT}" ]; then
  export PATH=${PYENV_ROOT}/bin:$PATH
  eval "$(pyenv init -)"
 fi
-
-
-# Visual Studio Code
-vscode () {
-    if [[ $# = 0 ]]
-    then
-        open -a "Visual Studio Code"
-    else
-        [[ $1 = /* ]] && F="$1" || F="$PWD/${1#./}"
-        open -a "Visual Studio Code" --args "$F"
-    fi
-}
-
-# pyenv
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH=${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
-export LESS="-R"
-export EDITOR=vim
-source $HOME/enhancd/init.sh
-
-# if [ -n "$PYENV_COMMAND" ] && [ ! -x "$PYENV_COMMAND_PATH" ]; then
-#     versions=($(pyenv-whence "${PYENV_COMMAND}" 2>/dev/null || true))
-#     if [ "${#versions[@]}" -eq 1 ]; then
-# 	PYENV_COMMAND_PATH="${PYENV_ROOT}/versions/${versions[0]}/bin/${PYENV_COMMAND}"
-#     fi
-#     fi

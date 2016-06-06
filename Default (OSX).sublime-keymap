@@ -1,14 +1,11 @@
 // how to investigate action from console
-// 1.ctrl+shift+@
-// 2.sublime.log_commands(True)
+// 1. ctrl+shift+@
+// 2. sublime.log_commands(True)
 
 [
-    //sublime repl
-    //{"keys": [""], "command": "repl_transfer_current" ,"args":{"scope": "lines"}},
+     {"keys": ["ctrl+shift+."], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-i", "-u", "-m", "pdb", "$file_basename"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
 
-    // { "keys": ["ctrl+t","."], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-i", "-u", "-m", "pdb", "$file_basename"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
-
-    { "keys": ["ctrl+shift+."], "command": "toggle_fold_comments" },
+    //{ "keys": ["ctrl+shift+."], "command": "toggle_fold_comments" },
 
 
     // { "keys": ["super+shift+s"], "command": "gdb_toggle_breakpoint"},
@@ -42,7 +39,7 @@
 
     // { "keys": ["ctrl+t",".a"], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-i", "-u"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
     //
-    // { "keys": ["super+alt+right"], "command": "next_view_in_stack"},
+   / / { "keys": ["super+alt+right"], "command": "next_view_in_stack"},
     // { "keys": ["super+alt+left"], "command": "prev_view_in_stack"},
     { "keys": ["ctrl+t","h"], "command": "carry_file_to_pane", "args":{"direction": "left"}},
     { "keys": ["ctrl+t","l"], "command": "carry_file_to_pane", "args":{"direction": "right"}},
@@ -232,4 +229,4 @@
     // やり直しのやり直し
     { "keys": ["f9"], "command": "redo" }
 
-    ]
+]
