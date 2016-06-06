@@ -1,108 +1,235 @@
+// how to investigate action from console
+// 1.ctrl+shift+@
+// 2.sublime.log_commands(True)
+
 [
-	// original code
-	// 改行
-	{ "keys" : ["ctrl+m"], "command": "insert", "args": {"characters": "\n"} },
-	// 上ページスクロール
-	{ "keys" : ["ctrl+u"], "command": "move", "args": {"by": "pages", "forward": false } },
-	// 下ページスクロール
-	{ "keys" : ["ctrl+q"], "command": "move", "args": {"by": "pages", "forward": true } },
-	// 括弧に飛ぶ
-	{ "keys": ["ctrl+l"], "command": "move_to", "args": {"to": "brackets"} },	
-	// 括弧の中身を選択
-	{ "keys": ["ctrl+shift+l"], "command": "expand_selection", "args": {"to": "brackets"} },
+    //sublime repl
+    //{"keys": [""], "command": "repl_transfer_current" ,"args":{"scope": "lines"}},
 
-	// emacs keybind for sublime text
-	// http://wp.re13b.jp/entry/sublime/setup/keybind
-	// 右移動（Ctrl + F）
-	{ "keys": ["ctrl+f"], "command": "move", "args": {"by": "characters", "forward": true } },
-	// 左移動（Ctrl + B）
-	{ "keys": ["ctrl+b"], "command": "move", "args": {"by": "characters", "forward": false } },
-	// 上移動（Ctrl + P）
-	// 下移動（Ctrl + N）
-	{ "keys": ["ctrl+p"], "command": "move", "args": {"by": "lines", "forward": false } },
-	{ "keys": ["ctrl+n"], "command": "move", "args": {"by": "lines", "forward": true } },
-	// 左削除（Ctrl + H）
-	{ "keys": ["ctrl+h"], "command": "left_delete" },
-	// 右削除（Ctrl + D）
-	{ "keys": ["ctrl+d"], "command": "right_delete" },
-	// 行の先頭へ移動（Ctrl + A）
-	{ "keys": ["ctrl+a"], "command": "move_to", "args": {"to": "bol", "extend": false} },
-	// 行の末尾へ移動（Ctrl + E）
-	{ "keys": ["ctrl+e"], "command": "move_to", "args": {"to": "eol", "extend": false} },
-	// 検索
-	{ "keys": ["ctrl+s"], "command": "show_panel", "args": {"panel": "find", "reverse": false} },
-	{ "keys": ["ctrl+s"], "command": "find_next", "context":
-		[{"key": "panel", "operand": "find"}, {"key": "panel_has_focus"}]
-	},
-	{ "keys": ["shift+enter"], "command": "find_prev", "context":
-		[{"key": "panel", "operand": "find"}, {"key": "panel_has_focus"}]
-	},
-	// ファイル検索
-	{ "keys": ["ctrl+shift+f"], "command": "show_panel", "args": {"panel": "find_in_files"} },
-	//{ "keys": ["f4"], "command": "next_result" },
-	//{ "keys": ["shift+f4"], "command": "prev_result" },
-	// コピー
-	{ "keys": ["escape","w"], "command": "copy" },
-	// カット
-	{ "keys": ["ctrl+w"], "command": "cut" },
-	// 上の行と入れ替える
-	{ "keys": ["alt+up"], "command": "swap_line_up" },
-	// 下の行と入れ替える
-	{ "keys": ["alt+down"], "command": "swap_line_down" },
-	// 行複製 
-	{ "keys": ["ctrl+alt+down"], "command": "duplicate_line" },
-	// 行削除: （Ctrl+Shift+k）
-//	{ "keys": ["ctrl+k", "k"], "command": "run_macro_file", "args": {"file": "Packages/Default/Delete Line.sublime-macro"} },
-	// 行移動: （Ctrl+Shift+↑、Ctrl+Shift+ ↓）
-	// 行をつなげる
-	{ "keys": ["ctrl+j"], "command": "join_lines" },
-	// 貼り付け
-	//{ "keys": ["ctrl+y"], "command": "paste" },
-	// 保存
-	{ "keys": ["ctrl+x","ctrl+s"], "command": "save" },
-	// 名前をつけて保存
-	{ "keys": ["ctrl+x","ctrl+a"], "command": "prompt_save_as" },
-	// やり直し
-	{ "keys": ["ctrl+x","u"], "command": "undo" },
-	{ "keys": ["ctrl+/"], "command": "undo" },
-	// マルチセレクト
-	{ "keys": ["ctrl+shift+s"], "command": "find_under_expand" },
-	// 矩形選択: （Shift を押しながら、右クリックしドラッグで選択）
-	// 行選択: (Ctrl+Alt+上矢印、Ctrl+Alt+下矢印)
-	// ウィンドウの分割: （Alt + Shift + 2,3,4）
-	// コード補完の候補選択をTabで行えるようにする
-	{ "keys": ["tab"], "command": "auto_complete", "context":
-		[
-			{ "key": "auto_complete_visible", "operator": "equal", "operand": true }
-		]
-	},
-	{ "keys": ["shift+tab"], "command": "auto_complete_prev", "context":
-		[
-			{ "key": "auto_complete_visible", "operator": "equal", "operand": true }
-		]
-	},
-	// F3で関数の宣言元にジャンプ
-	{ "keys": ["f3"], "command": "goto_definition" },
-	// ジャンプ元に戻る
-	{ "keys": ["alt+left"], "command": "jump_back" },
-	// ジャンプ元に戻ったのをまた進める
-	{ "keys": ["alt+right"], "command": "jump_forward" },
+    // { "keys": ["ctrl+t","."], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-i", "-u", "-m", "pdb", "$file_basename"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
+
+    { "keys": ["ctrl+shift+."], "command": "toggle_fold_comments" },
 
 
-	// 上記の設定のせいで上書きされたコマンドを復活させる ==================
-	// 全選択（Ctrl + Shift + A）
-	{ "keys": ["ctrl+shift+a"], "command": "select_all" },
-	// 同じ文字を一括選択・一括編集（Ctrl + Shift + D）
-	{ "keys": ["ctrl+shift+d"], "command": "find_under_expand" },
-	// 選択行のコピー（Ctrl + Shift + V）
-	{ "keys": ["ctrl+shift+v"], "command": "duplicate_line" },
-	// 検索（Ctrl + Shift + F）
-	//{ "keys": ["ctrl+shift+f"], "command": "show_panel", "args": {"panel": "find", "reverse": false} },
-	// 新規タブ（Ctrl + Shift N）
-	{ "keys": ["ctrl+shift+n"], "command": "new_file" },
-	// 閉じる
-	{ "keys": ["ctrl+x", "ctrl+c"], "command": "close" },
-	// やり直しのやり直し
-	{ "keys": ["f9"], "command": "redo" }
+    // { "keys": ["super+shift+s"], "command": "gdb_toggle_breakpoint"},
+    // { "keys": ["super+alt+shift+s"], "command": "gdb_launch","context": [{"key": "gdb_running", "operator": "equal", "operand": false}],"keys": ["f5"]},
+    { "keys": ["ctrl+shift+k"], "command": "select_lines", "args": {"forward": false} },
+    { "keys": ["ctrl+shift+j"], "command": "select_lines", "args": {"forward": true} },
+    { "keys": ["ctrl+shift+o"], "command": "open_dir", "args": { "dir": "$packages"} },
 
-]
+    // スペースをタブに変換
+    { "keys": ["ctrl+shift+x"], "command": "unexpand_tabs", "args": { "set_translate_tabs": false } },
+    // タブをスペースに変換
+    { "keys": ["ctrl+shift+y"], "command": "expand_tabs", "args": { "set_translate_tabs": true } },
+
+    // auto complete visible
+    { "keys": ["tab"], "command": "auto_complete", "context":
+      [
+        { "key": "auto_complete_visible", "operator": "equal", "operand": true }
+      ]
+    },
+    { "keys": ["shift+tab"], "command": "auto_complete_prev", "context":
+      [
+        { "key": "auto_complete_visible", "operator": "equal", "operand": true }
+      ]
+    },
+
+    // dash doc
+  { "keys": ["ctrl+t","h"], "command": "dash_doc"},
+  { "keys": ["ctrl+t","s"], "command": "dash_doc",
+                            "args": { "flip_syntax_sensitive": true } },
+    { "keys": ["ctrl+t","b"], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-u", "$file_basename"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
+
+    // { "keys": ["ctrl+t",".a"], "command": "repl_open","args":{"cmd": ["/Users/admin/.pyenv/shims/python", "-i", "-u"], "cwd": "$file_path", "encoding": "utf8", "extend_env": {"PYTHONIOENCODING": "utf-8"}, "external_id": "python", "syntax": "Packages/Python/Python.tmLanguage", "type": "subprocess"}},
+    //
+    // { "keys": ["super+alt+right"], "command": "next_view_in_stack"},
+    // { "keys": ["super+alt+left"], "command": "prev_view_in_stack"},
+    { "keys": ["ctrl+t","h"], "command": "carry_file_to_pane", "args":{"direction": "left"}},
+    { "keys": ["ctrl+t","l"], "command": "carry_file_to_pane", "args":{"direction": "right"}},
+    // open file history
+    { "keys": ["super+alt+o"], "command": "open_recently_closed_file","args":{"current_project_only": false, "show_quick_panel": true}},
+    { "keys": ["super+shift+o"], "command": "open_recently_closed_file","args":{"current_project_only": true, "show_quick_panel": true}},
+
+    // shortcut for key bindings
+    { "keys": ["super+."], "command": "open_file", "args": {"contents": "[\n    $0\n]\n", "file": "${packages}/User/Default ($platform).sublime-keymap"}},
+
+    // sublime repl
+    {"keys": ["alt+super+s"], "command": "run_existing_window_command", "args":
+    {
+        "id": "repl_shell",
+        "file": "config/Shell/Main.sublime-menu"
+    }},
+    // another bind defalut setting
+    //{ "keys": ["ctrl+shift+,"], "command": "duplicate_line" },
+
+    // pane
+    {"keys": ["ctrl+t","1"],"command": "set_layout", "args": {"cells": [[0, 0, 1, 1]], "cols": [0.0, 1.0], "rows": [0.0, 1.0]}},
+    {"keys": ["ctrl+t","ctrl+k"],"command": "destroy_pane", "args": {"direction": "self"}},
+    {"keys": ["ctrl+t","2"],"command": "create_pane", "args": {"direction": "down2"}},
+    {"keys": ["ctrl+t","3"],"command": "create_pane", "args": {"direction": "right"}},
+    {"keys": ["ctrl+t","o"],"command": "sbp_cycle_focus_group"},
+    {"keys": ["ctrl+t","z"],"command": "zoom_pane", "args":{"fraction": 0.98}},
+    {"keys": ["ctrl+t","u"],"command": "unzoom_pane {}"},
+
+    // { "keys": ["super+ctrl+k"], "command": "travel_to_pane", "args": {"direction": "up"} },
+    // { "keys": ["super+ctrl+l"], "command": "travel_to_pane", "args": {"direction": "right"} },
+    // { "keys": ["super+ctrl+j"], "command": "travel_to_pane", "args": {"direction": "down"} },
+    // { "keys": ["super+ctrl+h"], "command": "travel_to_pane", "args": {"direction": "left"} },
+
+    // go to symbol
+    { "keys": ["alt+super+r"], "command": "goto_symbol_in_project" },
+
+    // go to definition
+    { "keys": ["super+shift+d"], "command": "goto_definition" },
+    // alt+左で戻る
+    { "keys": ["super+left"], "command": "jump_back" },
+    // alt+右で戻ったのをまた進める
+    { "keys": ["super+right"], "command": "jump_forward" },
+
+    // copy file path
+    //{ "keys": ["ctrl+."], "command": "copy_path" },
+    { "keys": ["alt+super+p"], "command": "copy_path" },
+
+    // sublime files shortcat
+    { "keys": ["ctrl+shift+n"], "command": "sublime_files {'command': 'navigate'}"},
+
+    // delete to beginning
+    // no command
+
+    //color_pick
+    { "keys": ["alt+super+c"], "command": "color_pick" },
+
+    // //Emmet
+    // { "keys": ["ctrl+t"], "args": {"action": "matching_pair"}, "command": "run_emmet_action", "context": [{"key": "emmet_action_enabled.matching_pair"}]},
+
+    //alignment
+    { "keys": ["super+ctrl+a"], "command": "alignment" },
+
+    //git
+    { "keys": ["ctrl+shift+a"], "command": "git_add_choice" },
+    { "keys": ["ctrl+shift+c"], "command": "git_commit" },
+
+    //beautify ruby (auto indent for ruby)
+    { "keys": ["super+i"], "command": "quick_file_move" },
+    //for quickfilemove
+    { "keys": ["super+alt+r"], "command": "quick_file_move" },
+
+    //for dashdoc
+    // dash_docで検索
+    //{ "keys": ["ctrl+i"], "command": "dash_doc"},
+  //
+  { "keys": ["ctrl+alt+i"], "command": "dash_doc",
+  "args": { "flip_syntax_sensitive": true } },
+    // original code
+    // 改行
+    { "keys" : ["ctrl+m"], "command": "insert", "args": {"characters": "\n"} },
+    // 上ページスクロール
+    { "keys" : ["ctrl+u"], "command": "move", "args": {"by": "pages", "forward": false } },
+    // 下ページスクロール
+    { "keys" : ["ctrl+q"], "command": "move", "args": {"by": "pages", "forward": true } },
+    // 括弧に飛ぶ
+    { "keys": ["ctrl+l"], "command": "move_to", "args": {"to": "brackets"} },
+    // 括弧の中身を選択
+    { "keys": ["ctrl+shift+l"], "command": "expand_selection", "args": {"to": "brackets"} },
+    // バックスラッシュと円マークを入れ替える
+    { "keys": ["\u00a5"], "command": "insert", "args": {"characters": "\\"}},
+    { "keys": ["option+\u00a5"], "command": "insert", "args": {"characters": "¥"}},
+    // インデントができるようにする
+    { "keys": ["command+i"], "command": "reindent" , "args": { "single_line": false } },
+
+    // emacs keybind for sublime text
+    // http://wp.re13b.jp/entry/sublime/setup/keybind
+    // 右移動（Ctrl + F）
+    { "keys": ["ctrl+f"], "command": "move", "args": {"by": "characters", "forward": true } },
+    // 左移動（Ctrl + B）
+    { "keys": ["ctrl+b"], "command": "move", "args": {"by": "characters", "forward": false } },
+    // 上移動（Ctrl + P）
+    { "keys": ["ctrl+p"], "command": "move", "args": {"by": "lines", "forward": false } },
+    // 下移動（Ctrl + N）
+    { "keys": ["ctrl+n"], "command": "move", "args": {"by": "lines", "forward": true } },
+    // 左削除（Ctrl + H）
+    { "keys": ["ctrl+h"], "command": "left_delete" },
+    // 右削除（Ctrl + D）
+    { "keys": ["ctrl+d"], "command": "right_delete" },
+    // 行の先頭へ移動（Ctrl + A）
+    { "keys": ["ctrl+a"], "command": "move_to", "args": {"to": "bol", "extend": false} },
+    // 行の末尾へ移動（Ctrl + E）
+    { "keys": ["ctrl+e"], "command": "move_to", "args": {"to": "eol", "extend": false} },
+    // 検索
+    { "keys": ["ctrl+s"], "command": "show_panel", "args": {",": "find", "reverse": false} },
+    { "keys": ["ctrl+s"], "command": "show_panel", "args": {",": "find", "reverse": false} },
+    { "keys": ["ctrl+s"], "command": "show_panel", "args": {",": "find", "reverse": false} },
+
+    //},
+    { "keys": ["shift+enter"], "command": "find_prev", "context":
+    [{"key": "panel", "operand": "find"}, {"key": "panel_has_focus"}]
+    },
+    // ファイル検索
+    //{ "keys": ["ctrl+shift+f"], "command": "show_panel", "args": {"panel": "find_in_files"} },
+    //{ "keys": ["f4"], "command": "next_result" },
+    //{ "keys": ["shift+f4"], "command": "prev_result" },
+    // コピー
+    { "keys": ["escape","w"], "command": "copy" },
+    // カット
+    //{ "keys": ["ctrl+w"], "command": "cut" },
+    // 上の行と入れ替える
+    { "keys": ["alt+up"], "command": "swap_line_up" },
+    // 下の行と入れ替える
+    { "keys": ["alt+down"], "command": "swap_line_down" },
+    // 行複製
+    { "keys": ["ctrl+alt+down"], "command": "duplicate_line" },
+    // 行削除: （Ctrl+Shift+k）
+//  { "keys": ["ctrl+k", "k"], "command": "run_macro_file", "args": {"file": "Packages/Default/Delete Line.sublime-macro"} },
+    // 行移動: （Ctrl+Shift+↑、Ctrl+Shift+ ↓）
+    // 行をつなげる
+    { "keys": ["ctrl+j"], "command": "join_lines" },
+    // 貼り付け
+    //{ "keys": ["ctrl+y"], "command": "paste" },
+    // 保存
+    { "keys": ["ctrl+x","ctrl+s"], "command": "save" },
+    // 名前をつけて保存
+    { "keys": ["ctrl+x","ctrl+w"], "command": "prompt_save_as" },
+    // やり直し
+    { "keys": ["ctrl+x","u"], "command": "undo" },
+    { "keys": ["ctrl+/"], "command": "undo" },
+    // マルチセレクト
+    { "keys": ["ctrl+shift+s"], "command": "find_under_expand" },
+    // 矩形選択: （Shift を押しながら、右クリックしドラッグで選択）
+    // 行選択: (Ctrl+Alt+上矢印、Ctrl+Alt+下矢印)
+    // ウィンドウの分割: （Alt + Shift + 2,3,4）
+    // コード補完の候補選択をTabで行えるようにする
+    { "keys": ["tab"], "command": "auto_complete", "context":
+    [
+    { "key": "auto_complete_visible", "operator": "equal", "operand": true }
+    ]
+    },
+    { "keys": ["shift+tab"], "command": "auto_complete_prev", "context":
+    [
+    { "key": "auto_complete_visible", "operator": "equal", "operand": true }
+    ]
+    },
+    // F3で関数の宣言元にジャンプ
+    { "keys": ["f3"], "command": "goto_definition" },
+    // ジャンプ元に戻る
+    { "keys": ["alt+left"], "command": "jump_back" },
+    // ジャンプ元に戻ったのをまた進める
+    { "keys": ["alt+right"], "command": "jump_forward" },
+
+
+    // 上記の設定のせいで上書きされたコマンドを復活させる ==================
+    // 全選択（Ctrl + Shift + A）
+    //{ "keys": ["ctrl+shift+a"], "command": "select_all" },
+    // 同じ文字を一括選択・一括編集（Ctrl + Shift + D）
+    { "keys": ["ctrl+shift+d"], "command": "find_under_expand" },
+    // 選択行のコピー（Ctrl + Shift + V）
+    { "keys": ["ctrl+shift+v"], "command": "duplicate_line" },
+    // 検索（Ctrl + Shift + F）
+    //{ "keys": ["ctrl+shift+f"], "command": "show_panel", "args": {"panel": "find", "reverse": false} },
+    // 新規タブ（Ctrl + Shift N）
+    { "keys": ["ctrl+shift+n"], "command": "new_file" },
+    // 閉じる
+    { "keys": ["ctrl+x", "ctrl+c"], "command": "close" },
+    // やり直しのやり直し
+    { "keys": ["f9"], "command": "redo" }
+
+    ]
